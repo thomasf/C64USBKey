@@ -125,7 +125,7 @@ char keyMapUS[216]={
 57,105,106,48,109,107,111,110,0,                  //  9 I J Zero M K O N Null
 43,112,108,45,46,58,64,44,0,                      //  + P L - . : @ , Null     (US Keyboard)
 35,42,59,210,133,61,211,47,205,                   //  Pound * ; Home RSHFT = Pi / Restore
-49,178,128,50,32,135,113,177,0,                   //  1 BS CTRL 2 SPC C= Q RunStop Null
+49,178,128,50,32,179,113,177,0,                   //  1 BS CTRL 2 SPC C= Q RunStop Null
 
 209,176,216,201,195,197,199,218,0,                //  Del Return LR F8 F2 F4 F6 UD Null
 92,87,65,36,90,83,69,129,0,                       //  # W A $ Z S E LSHFT Null
@@ -134,7 +134,7 @@ char keyMapUS[216]={
 41,73,74,48,77,75,79,78,0,                        //  ) I J Zero M K O N Null
 43,80,76,95,62,91,96,60,0,                        //  + P L - > : @ < Null
 35,42,93,210,133,61,214,63,205,                   //  Pound * ; Home RSHFT = Pi ? Restore
-33,178,128,34,32,135,81,177,0,                    //  ! BS CTRL " SPC C= Q RS Null     (US Keyboard)
+33,178,128,34,32,179,81,177,0,                    //  ! BS CTRL " SPC C= Q RS Null     (US Keyboard)
 
 178,176,215,200,194,196,198,217,0,                //  Del Return LR F7 F1 F3 F5 UD Null
 51,119,97,52,122,115,101,129,0,                   //  3 W A 4 Z S E LSHFT Null
@@ -155,7 +155,7 @@ char keyMapEU[216]={
 57,105,106,48,109,107,111,110,0,                  //  9 I J Zero M K O N Null
 43,112,108,45,46,58,34,44,0,                      //  + P L - . : @ , Null     (EU Keyboard)
 35,42,59,210,133,61,211,47,205,                   //  Pound * ; Home RSHFT = Pi / Restore
-49,178,128,50,32,135,113,177,0,                   //  1 BS CTRL 2 SPC C= Q RunStop Null
+49,178,128,50,32,179,113,177,0,                   //  1 BS CTRL 2 SPC C= Q RunStop Null
 
 209,176,216,201,195,197,199,218,0,                //  Del Return LR F8 F2 F4 F6 UD Null
 92,87,65,36,90,83,69,129,0,                       //  # W A $ Z S E LSHFT Null
@@ -164,7 +164,7 @@ char keyMapEU[216]={
 41,73,74,48,77,75,79,78,0,                        //  ) I J Zero M K O N Null
 43,80,76,95,62,91,96,60,0,                        //  + P L - > : @ < Null
 35,42,93,210,133,61,214,63,205,                   //  Pound * ; Home RSHFT = Pi ? Restore
-33,178,128,64,32,135,81,177,0,                    //  ! BS CTRL " SPC C= Q RS Null     (EU Keyboard)
+33,178,128,64,32,179,81,177,0,                    //  ! BS CTRL " SPC C= Q RS Null     (EU Keyboard)
 
 178,176,215,200,194,196,198,217,0,                //  Del Return LR F7 F1 F3 F5 UD Null
 51,119,97,52,122,115,101,129,0,                   //  3 W A 4 Z S E LSHFT Null
