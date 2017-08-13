@@ -110,7 +110,7 @@ int outPin=2;
 int outPinSet=0;
 int i;
 int windowsShift;
-int DefaultKBMode=0;                              // Select 0 For Windows Mode On startup or 1 for C64 Mode
+int DefaultKBMode=1;                              // Select 0 For Windows Mode On startup or 1 for C64 Mode
 int USKeyboard=1;                                 // Select 1 for US Keyboard or 0 For EU
 int HybridKeyboard=1;                             // Select 0 for normal or 1 for the left shift key allowing all f keys and cursor keys in windows mode. (Also has a shifted restore key)
 
