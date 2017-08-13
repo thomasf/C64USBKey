@@ -168,7 +168,7 @@ equal           6 5 0
 # Page down -> Arrow Up
 asciicircum     6 6 0
 asciitilde      6 6 0
-Page_Down       6 6 8
+Prior           6 6 8
 slash           6 7 0
 question        6 7 1
 
@@ -253,9 +253,9 @@ x 2 7 8
 y 3 1 8
 z 1 4 8
 
-# Restore key mappings
-Page_Up -3 0
-Prior -3 1
+#Restore key mappings
+#Page_Up -3 0
+#Prior -3 1
 
 # Dead keys support for those using US-International keyboard layout.
 dead_acute      3 0 1  # '
