@@ -179,11 +179,13 @@ exclam          7 0 1
 # underscore -> arrow left
 BackSpace       7 1 0
 End             7 1 0
-Tab             7 2 8     /* Tab = CTRL */
-ISO_Left_Tab    7 2 8     /* Shift + Tab = CTRL */
+# Tab           7 2 8     /* Tab = CTRL */
+Tab             7 5 8
+# ISO_Left_Tab  7 2 8     /* Shift + Tab = CTRL */
 quotedbl        7 3 1
 space           7 4 8
-Control_L       7 5 8     /* Control_L = CBM */
+# Control_L     7 5 8     /* Control_L = CBM */
+Control_L       7 2 8
 Escape          7 7 8
 
 #####################
@@ -254,8 +256,8 @@ y 3 1 8
 z 1 4 8
 
 #Restore key mappings
-#Page_Up -3 0
-#Prior -3 1
+F12 -3 0
+F12 -3 1
 
 # Dead keys support for those using US-International keyboard layout.
 dead_acute      3 0 1  # '
