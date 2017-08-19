@@ -215,19 +215,17 @@ void setup() {
   digitalWrite(8, HIGH);
   digitalWrite(9, HIGH);
 
+  // detect if '1' is held on power up to swap mode
   if (DefaultKBMode == 1) {
-    // detect if '1' is held on power up to swap mode
-    if (digitalRead(10))
-      windowsShift = 0;
-    else
-      windowsShift = 1;
-  }
-  if (DefaultKBMode == 0) {
-    // detect if '1' is held on power up to swap mod
     if (digitalRead(10))
       windowsShift = 1;
     else
-      windowsShift = 0;
+      windowsShift = 2;
+  } else {
+    if (digitalRead(10))
+      windowsShift = 1;
+    else
+      windowsShift = 2;
   }
 }
 
@@ -259,20 +257,12 @@ void loop() {
     for (i = 0; i < 9; i++) {
       // calculate character map position
       keyPos = i + ((outPin - 2) * 9);
+      // work out which key it is from the map and shift if needed
+      // else "windows" keymap where shift is passed through
       if (USKeyboard == 1) {
-        // work out which key it is from the map and shift if needed
-        // else "windows" keymap where shift is passed through
-        if (windowsShift)
-          inChar = keyMapUS[keyPos + 144];
-        else
-          inChar = keyMapUS[keyPos + shift];
+        inChar = keyMapUS[keyPos + shift * windowsShift];
       } else {
-        // work out which key it is from the map and shift if needed
-        // else use "windows" keymap where shift is passed through
-        if (windowsShift)
-          inChar = keyMapEU[keyPos + 144];
-        else
-          inChar = keyMapEU[keyPos + shift];
+        inChar = keyMapEU[keyPos + shift * windowsShift];
       }
       // check the active input pin
       if (i == 0)
@@ -302,7 +292,7 @@ void loop() {
           // put the right character in the keydown array
           keyDown[keyPos] = inChar;
           // is it not-shift or in windows mode?
-          if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
+          if ((keyPos != 16 && keyPos != 58) || windowsShift > 1) {
             // if so pass the key through
             // reset the debounce delay
             lastDebounceTime[keyPos] = time;
@@ -317,7 +307,7 @@ void loop() {
         // key is up and a character is stored in the keydown position
         if (digitalread == 0 && keyDown[keyPos] != 0) {
           // not-shift or windows mode
-          if ((keyPos !=16 && keyPos != 58) || windowsShift == 1) {
+          if ((keyPos !=16 && keyPos != 58) || windowsShift > 1) {
             // reset keybounce delay
             lastDebounceTime[keyPos] = time;
             // pass key release to windows
