@@ -112,7 +112,7 @@ int i;
 int windowsShift;
 int DefaultKBMode = 1;                             // Select 0 For Windows Mode On startup or 1 for C64 Mode
 int USKeyboard = 1;                                // Select 1 for US Keyboard or 0 For EU
-int HybridKeyboard = 1;                            // Select 0 for normal or 1 for the left shift key allowing all f keys and cursor keys in windows mode. (Also has a shifted restore key)
+int HybridKeyboard = 0;                            // Select 0 for normal or 1 for the left shift key allowing all f keys and cursor keys in windows mode. (Also has a shifted restore key)
 
 
 
@@ -224,17 +224,17 @@ void setup() {
 
   if (DefaultKBMode == 1) {
     // detect if '1' is held on power up to swap mode
-    if (!digitalRead(10))
-      windowsShift = 1;
-    else
+    if (digitalRead(10))
       windowsShift = 0;
+    else
+      windowsShift = 1;
   }
   if (DefaultKBMode == 0) {
     // detect if '1' is held on power up to swap mod
-    if (!digitalRead(10))
-      windowsShift = 0;
-    else
+    if (digitalRead(10))
       windowsShift = 1;
+    else
+      windowsShift = 0;
   }
 }
 
@@ -273,18 +273,17 @@ void loop() {
       if (USKeyboard == 1) {
         // work out which key it is from the map and shift if needed
         // else "windows" keymap where shift is passed through
-        if (!windowsShift)
-          inChar = keyMapUS[keyPos + shift];
-        else
+        if (windowsShift)
           inChar = keyMapUS[keyPos + 144];
-      }
-      if (USKeyboard == 0) {
+        else
+          inChar = keyMapUS[keyPos + shift];
+      } else {
         // work out which key it is from the map and shift if needed
         // else use "windows" keymap where shift is passed through
-        if (!windowsShift)
-          inChar = keyMapEU[keyPos + shift];
-        else
+        if (windowsShift)
           inChar = keyMapEU[keyPos + 144];
+        else
+          inChar = keyMapEU[keyPos + shift];
       }
       // check the active input pin
       if (i == 0) digitalread = 1 - digitalRead(10);
@@ -304,6 +303,7 @@ void loop() {
           if (digitalread == 1 && keyDown[keyPos] == 0) {
             // put the right character in the keydown array
             keyDown[keyPos] = inChar;
+
             if (keyDown[16] && keyDown[2])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[0]; }
             if (keyDown[16] && keyDown[3])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[1]; }
             if (keyDown[16] && keyDown[4])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[2]; }
