@@ -104,6 +104,7 @@ int keyPos = 0;
 int digitalread = 0;
 int keyDown[72];
 long lastDebounceTime[72];
+unsigned long time;
 int debounceDelay = 50;
 int shift = 0;
 int outPin = 2;
@@ -289,8 +290,9 @@ void loop() {
       if (i == 8) digitalread = 1 - digitalRead(1);
 
 
+      time = millis();
       // debounce for each key individually
-      if ((millis() - lastDebounceTime[keyPos]) > debounceDelay) {
+      if ((time - lastDebounceTime[keyPos]) > debounceDelay) {
         // if a key is pressed and wasn't already down
         if (digitalread == 1 && keyDown[keyPos] == 0) {
           // put the right character in the keydown array
@@ -299,12 +301,12 @@ void loop() {
           if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
             // if so pass the key through
             // reset the debounce delay
-            lastDebounceTime[keyPos] = millis();
+            lastDebounceTime[keyPos] = time;
             // pass the keypress to windows
             Keyboard.press(keyDown[keyPos]);
           } else {
             // reset keybounce delay and mark as shift press
-            lastDebounceTime[keyPos] = millis();
+            lastDebounceTime[keyPos] = time;
             shift = 72;
           }
         }
@@ -313,12 +315,12 @@ void loop() {
           // not-shift or windows mode
           if ((keyPos !=16 && keyPos != 58) || windowsShift == 1) {
             // reset keybounce delay
-            lastDebounceTime[keyPos] = millis();
+            lastDebounceTime[keyPos] = time;
             // pass key release to windows
             Keyboard.release(keyDown[keyPos]);
           } else {
             // reset keybounce delay and mark as un-shifted
-            lastDebounceTime[keyPos] = millis();
+            lastDebounceTime[keyPos] = time;
             shift = 0;
           }
           // set keydown array position as up
