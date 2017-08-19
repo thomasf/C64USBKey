@@ -112,9 +112,6 @@ int i;
 int windowsShift;
 int DefaultKBMode = 1;                             // Select 0 For Windows Mode On startup or 1 for C64 Mode
 int USKeyboard = 1;                                // Select 1 for US Keyboard or 0 For EU
-int HybridKeyboard = 0;                            // Select 0 for normal or 1 for the left shift key allowing all f keys and cursor keys in windows mode. (Also has a shifted restore key)
-
-
 
 char keyMapUS[216] = {
 
@@ -175,11 +172,6 @@ char keyMapEU[216]={
   209,93,39,210,133,92,212,47,205,                  //  Pound * ; Home RSHFT = Pi / Restore
   49,223,9,50,32,128,113,177,0,                     //  1 BS CTRL 2 SPC C= Q RunStop Null
 
-};
-
-// Hybrid Keys. These are the shifted values.
-char Hybridkeys[7] {
-  216,201,195,197,199,218,205,                      // LR F8 F2 F4 F6 UD Restore
 };
 
 void setup() {
@@ -296,89 +288,41 @@ void loop() {
       if (i == 7) digitalread = 1 - digitalRead(15);
       if (i == 8) digitalread = 1 - digitalRead(1);
 
-      if (HybridKeyboard  ==  1) {
-        // debounce for each key individually
-        if ((millis() - lastDebounceTime[keyPos]) > debounceDelay) {
-          // if a key is pressed and wasn't already down
-          if (digitalread == 1 && keyDown[keyPos] == 0) {
-            // put the right character in the keydown array
-            keyDown[keyPos] = inChar;
 
-            if (keyDown[16] && keyDown[2])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[0]; }
-            if (keyDown[16] && keyDown[3])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[1]; }
-            if (keyDown[16] && keyDown[4])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[2]; }
-            if (keyDown[16] && keyDown[5])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[3]; }
-            if (keyDown[16] && keyDown[6])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[4]; }
-            if (keyDown[16] && keyDown[7])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[5]; }
-            if (keyDown[16] && keyDown[62]) { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[6]; }
-
-            // is it not-shift or in windows mode?
-            if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
-              // if so pass the key through
-              // reset the debounce delay
-              lastDebounceTime[keyPos] = millis();
-              // pass the keypress to windows
-              Keyboard.press(keyDown[keyPos]);
-            } else {
-              // reset keybounce delay and mark as shift press
-              lastDebounceTime[keyPos] = millis();
-              shift = 72;
-            }
-          }
-          // key is up and a character is stored in the keydown position
-          if (digitalread == 0 && keyDown[keyPos] != 0) {
-            // not-shift or windows mode
-            if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
-              // reset keybounce delay
-              lastDebounceTime[keyPos] = millis();
-              // pass key release to windows
-              Keyboard.release(keyDown[keyPos]);
-            } else {
-              // reset keybounce delay and mark as un-shifted
-              lastDebounceTime[keyPos] = millis();
-              shift = 0;
-            }
-            // set keydown array position as up
-            keyDown[keyPos] = 0;
+      // debounce for each key individually
+      if ((millis() - lastDebounceTime[keyPos]) > debounceDelay) {
+        // if a key is pressed and wasn't already down
+        if (digitalread == 1 && keyDown[keyPos] == 0) {
+          // put the right character in the keydown array
+          keyDown[keyPos] = inChar;
+          // is it not-shift or in windows mode?
+          if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
+            // if so pass the key through
+            // reset the debounce delay
+            lastDebounceTime[keyPos] = millis();
+            // pass the keypress to windows
+            Keyboard.press(keyDown[keyPos]);
+          } else {
+            // reset keybounce delay and mark as shift press
+            lastDebounceTime[keyPos] = millis();
+            shift = 72;
           }
         }
-      }
-      if (HybridKeyboard == 0) {
-        // debounce for each key individually
-        if ((millis() - lastDebounceTime[keyPos]) > debounceDelay) {
-          // if a key is pressed and wasn't already down
-          if (digitalread == 1 && keyDown[keyPos] == 0) {
-            // put the right character in the keydown array
-            keyDown[keyPos] = inChar;
-            // is it not-shift or in windows mode?
-            if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
-              // if so pass the key through
-              // reset the debounce delay
-              lastDebounceTime[keyPos] = millis();
-              // pass the keypress to windows
-              Keyboard.press(keyDown[keyPos]);
-            } else {
-              // reset keybounce delay and mark as shift press
-              lastDebounceTime[keyPos] = millis();
-              shift = 72;
-            }
+        // key is up and a character is stored in the keydown position
+        if (digitalread == 0 && keyDown[keyPos] != 0) {
+          // not-shift or windows mode
+          if ((keyPos !=16 && keyPos != 58) || windowsShift == 1) {
+            // reset keybounce delay
+            lastDebounceTime[keyPos] = millis();
+            // pass key release to windows
+            Keyboard.release(keyDown[keyPos]);
+          } else {
+            // reset keybounce delay and mark as un-shifted
+            lastDebounceTime[keyPos] = millis();
+            shift = 0;
           }
-          // key is up and a character is stored in the keydown position
-          if (digitalread == 0 && keyDown[keyPos] != 0) {
-            // not-shift or windows mode
-            if ((keyPos !=16 && keyPos != 58) || windowsShift == 1) {
-              // reset keybounce delay
-              lastDebounceTime[keyPos] = millis();
-              // pass key release to windows
-              Keyboard.release(keyDown[keyPos]);
-            } else {
-              // reset keybounce delay and mark as un-shifted
-              lastDebounceTime[keyPos] = millis();
-              shift = 0;
-            }
-            // set keydown array position as up
-            keyDown[keyPos] = 0;
-          }
+          // set keydown array position as up
+          keyDown[keyPos] = 0;
         }
       }
     }
