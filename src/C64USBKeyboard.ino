@@ -245,19 +245,15 @@ void loop() {
     pinMode(8, INPUT);
     pinMode(9, INPUT);
 
-    // pinMode(outPin,OUTPUT);  // select output to activate
-    // digitalWrite(outPin,LOW); // set it as low, a pressed key will be pulled to ground
     // Changed order to match real c64 keyboard matrix layout.
-
-    if (outPin == 2) pinMode (9, OUTPUT); digitalWrite(9, LOW); outPinSet = 9;
-    if (outPin == 3) pinMode (3, OUTPUT); digitalWrite(3, LOW); outPinSet = 3;
-    if (outPin == 4) pinMode (4, OUTPUT); digitalWrite(4, LOW); outPinSet = 4;
-    if (outPin == 5) pinMode (5, OUTPUT); digitalWrite(5, LOW); outPinSet = 5;
-    if (outPin == 6) pinMode (6, OUTPUT); digitalWrite(6, LOW); outPinSet = 6;
-    if (outPin == 7) pinMode (7, OUTPUT); digitalWrite(7, LOW); outPinSet = 7;
-    if (outPin == 8) pinMode (8, OUTPUT); digitalWrite(8, LOW); outPinSet = 8;
-    if (outPin == 9) pinMode (2, OUTPUT); digitalWrite(2, LOW); outPinSet = 2;
-
+    if (outPin == 2)
+      outPinSet = 9;
+    else if (outPin == 9)
+      outPinSet = 2;
+    else
+      outPinSet = outPin;
+    pinMode(outPinSet, OUTPUT);
+    digitalWrite(outPinSet, LOW);
 
     // scan through columns
     for (i = 0; i < 9; i++) {
