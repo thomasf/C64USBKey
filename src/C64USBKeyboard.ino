@@ -99,20 +99,20 @@
 #include <HID.h>
 #include <Keyboard.h>
 
-int inChar=0;
-int keyPos=0;
-int digitalread=0;
+int inChar = 0;
+int keyPos = 0;
+int digitalread = 0;
 int keyDown[72];
 long lastDebounceTime[72];
-int debounceDelay=50;
-int shift=0;
-int outPin=2;
-int outPinSet=0;
+int debounceDelay = 50;
+int shift = 0;
+int outPin = 2;
+int outPinSet = 0;
 int i;
 int windowsShift;
-int DefaultKBMode=1;                              // Select 0 For Windows Mode On startup or 1 for C64 Mode
-int USKeyboard=1;                                 // Select 1 for US Keyboard or 0 For EU
-int HybridKeyboard=1;                             // Select 0 for normal or 1 for the left shift key allowing all f keys and cursor keys in windows mode. (Also has a shifted restore key)
+int DefaultKBMode = 1;                             // Select 0 For Windows Mode On startup or 1 for C64 Mode
+int USKeyboard = 1;                                // Select 1 for US Keyboard or 0 For EU
+int HybridKeyboard = 1;                            // Select 0 for normal or 1 for the left shift key allowing all f keys and cursor keys in windows mode. (Also has a shifted restore key)
 
 
 
@@ -180,137 +180,139 @@ char keyMapEU[216]={
 // Hybrid Keys. These are the shifted values.
 char Hybridkeys[7] {
   216,201,195,197,199,218,205,                      // LR F8 F2 F4 F6 UD Restore
-    };
+};
+
 void setup() {
 
   // initialize control over the keyboard:
   Keyboard.begin();
 
   // Set all keys as up
-  for (i=0; i<64; i++) keyDown[i]=0;
+  for (i = 0; i < 64; i++)
+    keyDown[i] = 0;
 
   // configure inputs and outputs
-  pinMode(2,OUTPUT);
-  pinMode(3,OUTPUT);
-  pinMode(4,OUTPUT);
-  pinMode(5,OUTPUT);
-  pinMode(6,OUTPUT);
-  pinMode(7,OUTPUT);
-  pinMode(8,OUTPUT);
-  pinMode(9,OUTPUT);
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
 
   // use internal pullups to hold pins high
-  pinMode(10,INPUT_PULLUP);
-  pinMode(16,INPUT_PULLUP);
-  pinMode(15,INPUT_PULLUP);
-  pinMode(14,INPUT_PULLUP);
-  pinMode(A0,INPUT_PULLUP);
-  pinMode(A1,INPUT_PULLUP);
-  pinMode(A2,INPUT_PULLUP);
-  pinMode(A3,INPUT_PULLUP);
-  pinMode(1,INPUT_PULLUP);
+  pinMode(10, INPUT_PULLUP);
+  pinMode(16, INPUT_PULLUP);
+  pinMode(15, INPUT_PULLUP);
+  pinMode(14, INPUT_PULLUP);
+  pinMode(A0, INPUT_PULLUP);
+  pinMode(A1, INPUT_PULLUP);
+  pinMode(A2, INPUT_PULLUP);
+  pinMode(A3, INPUT_PULLUP);
+  pinMode(1, INPUT_PULLUP);
 
   // start with one active pin to detect '1'
-  digitalWrite(2,LOW);
-  digitalWrite(3,HIGH);
-  digitalWrite(4,HIGH);
-  digitalWrite(5,HIGH);
-  digitalWrite(6,HIGH);
-  digitalWrite(7,HIGH);
-  digitalWrite(8,HIGH);
-  digitalWrite(9,HIGH);
+  digitalWrite(2, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+  digitalWrite(9, HIGH);
 
   if (DefaultKBMode == 1) {
     // detect if '1' is held on power up to swap mode
     if (!digitalRead(10))
-      windowsShift=1;
+      windowsShift = 1;
     else
-      windowsShift=0;
+      windowsShift = 0;
   }
-  if (DefaultKBMode==0) {
+  if (DefaultKBMode == 0) {
     // detect if '1' is held on power up to swap mod
     if (!digitalRead(10))
-      windowsShift=0;
+      windowsShift = 0;
     else
-      windowsShift=1;
+      windowsShift = 1;
   }
 }
 
 // main keyboard scanning loop
 void loop() {
   // scan through all rows
-  for (outPin=2;outPin<10; outPin++) {
+  for (outPin = 2; outPin < 10; outPin++) {
     // set unused (all) outputs to input to avoid ghosting
-    pinMode(2,INPUT);
-    pinMode(3,INPUT);
-    pinMode(4,INPUT);
-    pinMode(5,INPUT);
-    pinMode(6,INPUT);
-    pinMode(7,INPUT);
-    pinMode(8,INPUT);
-    pinMode(9,INPUT);
+    pinMode(2, INPUT);
+    pinMode(3, INPUT);
+    pinMode(4, INPUT);
+    pinMode(5, INPUT);
+    pinMode(6, INPUT);
+    pinMode(7, INPUT);
+    pinMode(8, INPUT);
+    pinMode(9, INPUT);
 
     // pinMode(outPin,OUTPUT);  // select output to activate
     // digitalWrite(outPin,LOW); // set it as low, a pressed key will be pulled to ground
     // Changed order to match real c64 keyboard matrix layout.
 
-    if (outPin==2) pinMode (9,OUTPUT);digitalWrite(9,LOW);outPinSet=9;
-    if (outPin==3) pinMode (3,OUTPUT);digitalWrite(3,LOW);outPinSet=3;
-    if (outPin==4) pinMode (4,OUTPUT);digitalWrite(4,LOW);outPinSet=4;
-    if (outPin==5) pinMode (5,OUTPUT);digitalWrite(5,LOW);outPinSet=5;
-    if (outPin==6) pinMode (6,OUTPUT);digitalWrite(6,LOW);outPinSet=6;
-    if (outPin==7) pinMode (7,OUTPUT);digitalWrite(7,LOW);outPinSet=7;
-    if (outPin==8) pinMode (8,OUTPUT);digitalWrite(8,LOW);outPinSet=8;
-    if (outPin==9) pinMode (2,OUTPUT);digitalWrite(2,LOW);outPinSet=2;
+    if (outPin == 2) pinMode (9, OUTPUT); digitalWrite(9, LOW); outPinSet = 9;
+    if (outPin == 3) pinMode (3, OUTPUT); digitalWrite(3, LOW); outPinSet = 3;
+    if (outPin == 4) pinMode (4, OUTPUT); digitalWrite(4, LOW); outPinSet = 4;
+    if (outPin == 5) pinMode (5, OUTPUT); digitalWrite(5, LOW); outPinSet = 5;
+    if (outPin == 6) pinMode (6, OUTPUT); digitalWrite(6, LOW); outPinSet = 6;
+    if (outPin == 7) pinMode (7, OUTPUT); digitalWrite(7, LOW); outPinSet = 7;
+    if (outPin == 8) pinMode (8, OUTPUT); digitalWrite(8, LOW); outPinSet = 8;
+    if (outPin == 9) pinMode (2, OUTPUT); digitalWrite(2, LOW); outPinSet = 2;
 
 
     // scan through columns
-    for (i=0; i<9; i++) {
+    for (i = 0; i < 9; i++) {
       // calculate character map position
-      keyPos=i+((outPin-2)*9);
-      if (USKeyboard==1) {
+      keyPos = i + ((outPin - 2) * 9);
+      if (USKeyboard == 1) {
         // work out which key it is from the map and shift if needed
         // else "windows" keymap where shift is passed through
         if (!windowsShift)
-          inChar=keyMapUS[keyPos+shift];
-        else inChar=keyMapUS[keyPos+144];
+          inChar = keyMapUS[keyPos + shift];
+        else inChar = keyMapUS[keyPos + 144];
       }
-      if (USKeyboard==0) {
+      if (USKeyboard == 0) {
         // work out which key it is from the map and shift if needed
         // else use "windows" keymap where shift is passed through
         if (!windowsShift)
-          inChar=keyMapEU[keyPos+shift];
+          inChar = keyMapEU[keyPos + shift];
         else
-          inChar=keyMapEU[keyPos+144];
+          inChar = keyMapEU[keyPos + 144];
       }
       // check the active input pin
-      if (i==0) digitalread=1-digitalRead(10);
-      if (i==1) digitalread=1-digitalRead(16);
-      if (i==2) digitalread=1-digitalRead(14);
-      if (i==3) digitalread=1-digitalRead(A3);
-      if (i==4) digitalread=1-digitalRead(A0);
-      if (i==5) digitalread=1-digitalRead(A1);
-      if (i==6) digitalread=1-digitalRead(A2);
-      if (i==7) digitalread=1-digitalRead(15);
-      if (i==8) digitalread=1-digitalRead(1);
+      if (i == 0) digitalread = 1 - digitalRead(10);
+      if (i == 1) digitalread = 1 - digitalRead(16);
+      if (i == 2) digitalread = 1 - digitalRead(14);
+      if (i == 3) digitalread = 1 - digitalRead(A3);
+      if (i == 4) digitalread = 1 - digitalRead(A0);
+      if (i == 5) digitalread = 1 - digitalRead(A1);
+      if (i == 6) digitalread = 1 - digitalRead(A2);
+      if (i == 7) digitalread = 1 - digitalRead(15);
+      if (i == 8) digitalread = 1 - digitalRead(1);
 
-      if (HybridKeyboard==1) {
+      if (HybridKeyboard  ==  1) {
         // debounce for each key individually
-        if ((millis()-lastDebounceTime[keyPos])>debounceDelay) {
+        if ((millis() - lastDebounceTime[keyPos]) > debounceDelay) {
           // if a key is pressed and wasn't already down
-          if (digitalread==1 && keyDown[keyPos]==0) {
+          if (digitalread == 1 && keyDown[keyPos] == 0) {
             // put the right character in the keydown array
-            keyDown[keyPos]=inChar;
-            if (keyDown[16]&&keyDown[2])  {Keyboard.release (keyDown[16]);keyDown[keyPos]=Hybridkeys[0];}
-            if (keyDown[16]&&keyDown[3])  {Keyboard.release (keyDown[16]);keyDown[keyPos]=Hybridkeys[1];}
-            if (keyDown[16]&&keyDown[4])  {Keyboard.release (keyDown[16]);keyDown[keyPos]=Hybridkeys[2];}
-            if (keyDown[16]&&keyDown[5])  {Keyboard.release (keyDown[16]);keyDown[keyPos]=Hybridkeys[3];}
-            if (keyDown[16]&&keyDown[6])  {Keyboard.release (keyDown[16]);keyDown[keyPos]=Hybridkeys[4];}
-            if (keyDown[16]&&keyDown[7])  {Keyboard.release (keyDown[16]);keyDown[keyPos]=Hybridkeys[5];}
-            if (keyDown[16]&&keyDown[62]) {Keyboard.release (keyDown[16]);keyDown[keyPos]=Hybridkeys[6];}
+            keyDown[keyPos] = inChar;
+            if (keyDown[16] && keyDown[2])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[0]; }
+            if (keyDown[16] && keyDown[3])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[1]; }
+            if (keyDown[16] && keyDown[4])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[2]; }
+            if (keyDown[16] && keyDown[5])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[3]; }
+            if (keyDown[16] && keyDown[6])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[4]; }
+            if (keyDown[16] && keyDown[7])  { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[5]; }
+            if (keyDown[16] && keyDown[62]) { Keyboard.release(keyDown[16]); keyDown[keyPos] = Hybridkeys[6]; }
 
             // is it not-shift or in windows mode?
-            if ((keyPos!=16&&keyPos!=58)||windowsShift==1) {
+            if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
               // if so pass the key through
               // reset the debounce delay
               lastDebounceTime[keyPos] = millis();
@@ -318,35 +320,37 @@ void loop() {
               Keyboard.press(keyDown[keyPos]);
             } else {
               // reset keybounce delay and mark as shift press
-              lastDebounceTime[keyPos]=millis(); shift=72;
+              lastDebounceTime[keyPos] = millis();
+              shift = 72;
             }
           }
           // key is up and a character is stored in the keydown position
-          if (digitalread==0 && keyDown[keyPos]!=0) {
+          if (digitalread == 0 && keyDown[keyPos] != 0) {
             // not-shift or windows mode
-            if ((keyPos!=16&&keyPos!=58)||windowsShift==1) {
+            if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
               // reset keybounce delay
               lastDebounceTime[keyPos] = millis();
               // pass key release to windows
               Keyboard.release(keyDown[keyPos]);
             } else {
               // reset keybounce delay and mark as un-shifted
-              lastDebounceTime[keyPos]=millis(); shift=0;
+              lastDebounceTime[keyPos] = millis();
+              shift=0;
             }
             // set keydown array position as up
-            keyDown[keyPos]=0;
+            keyDown[keyPos] = 0;
           }
         }
       }
-      if (HybridKeyboard==0) {
+      if (HybridKeyboard == 0) {
         // debounce for each key individually
-        if ((millis()-lastDebounceTime[keyPos])>debounceDelay) {
+        if ((millis() - lastDebounceTime[keyPos]) > debounceDelay) {
           // if a key is pressed and wasn't already down
-          if (digitalread==1 && keyDown[keyPos]==0) {
+          if (digitalread == 1 && keyDown[keyPos] == 0) {
             // put the right character in the keydown array
-            keyDown[keyPos]=inChar;
+            keyDown[keyPos] = inChar;
             // is it not-shift or in windows mode?
-            if ((keyPos!=16&&keyPos!=58)||windowsShift==1) {
+            if ((keyPos != 16 && keyPos != 58) || windowsShift == 1) {
               // if so pass the key through
               // reset the debounce delay
               lastDebounceTime[keyPos] = millis();
@@ -354,28 +358,30 @@ void loop() {
               Keyboard.press(keyDown[keyPos]);
             } else {
               // reset keybounce delay and mark as shift press
-              lastDebounceTime[keyPos]=millis(); shift=72;
+              lastDebounceTime[keyPos] = millis();
+              shift = 72;
             }
           }
           // key is up and a character is stored in the keydown position
-          if (digitalread==0 && keyDown[keyPos]!=0) {
+          if (digitalread == 0 && keyDown[keyPos] != 0) {
             // not-shift or windows mode
-            if ((keyPos!=16&&keyPos!=58)||windowsShift==1) {
+            if ((keyPos !=16 && keyPos != 58) || windowsShift == 1) {
               // reset keybounce delay
               lastDebounceTime[keyPos] = millis();
               // pass key release to windows
               Keyboard.release(keyDown[keyPos]);
             } else {
               // reset keybounce delay and mark as un-shifted
-              lastDebounceTime[keyPos]=millis(); shift=0;
+              lastDebounceTime[keyPos] = millis();
+              shift = 0;
             }
             // set keydown array position as up
-            keyDown[keyPos]=0;
+            keyDown[keyPos] = 0;
           }
         }
       }
     }
     // set output back to high
-    digitalWrite(outPinSet,HIGH);
+    digitalWrite(outPinSet, HIGH);
   }
 }
