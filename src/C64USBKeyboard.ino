@@ -279,16 +279,24 @@ void loop() {
           inChar = keyMapEU[keyPos + shift];
       }
       // check the active input pin
-      if (i == 0) digitalread = 1 - digitalRead(10);
-      if (i == 1) digitalread = 1 - digitalRead(16);
-      if (i == 2) digitalread = 1 - digitalRead(14);
-      if (i == 3) digitalread = 1 - digitalRead(A3);
-      if (i == 4) digitalread = 1 - digitalRead(A0);
-      if (i == 5) digitalread = 1 - digitalRead(A1);
-      if (i == 6) digitalread = 1 - digitalRead(A2);
-      if (i == 7) digitalread = 1 - digitalRead(15);
-      if (i == 8) digitalread = 1 - digitalRead(1);
-
+      if (i == 0)
+        digitalread = 1 - digitalRead(10);
+      else if (i == 1)
+        digitalread = 1 - digitalRead(16);
+      else if (i == 2)
+        digitalread = 1 - digitalRead(14);
+      else if (i == 3)
+        digitalread = 1 - digitalRead(A3);
+      else if (i == 4)
+        digitalread = 1 - digitalRead(A0);
+      else if (i == 5)
+        digitalread = 1 - digitalRead(A1);
+      else if (i == 6)
+        digitalread = 1 - digitalRead(A2);
+      else if (i == 7)
+        digitalread = 1 - digitalRead(15);
+      else if (i == 8)
+        digitalread = 1 - digitalRead(1);
 
       time = millis();
       // debounce for each key individually
