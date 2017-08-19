@@ -222,11 +222,17 @@ void setup() {
 
   if (DefaultKBMode == 1) {
     // detect if '1' is held on power up to swap mode
-    if (!digitalRead(10)) windowsShift=1; else windowsShift=0;
+    if (!digitalRead(10))
+      windowsShift=1;
+    else
+      windowsShift=0;
   }
   if (DefaultKBMode==0) {
     // detect if '1' is held on power up to swap mod
-    if (!digitalRead(10)) windowsShift=0; else windowsShift=1;
+    if (!digitalRead(10))
+      windowsShift=0;
+    else
+      windowsShift=1;
   }
 }
 
@@ -264,15 +270,18 @@ void loop() {
       keyPos=i+((outPin-2)*9);
       if (USKeyboard==1) {
         // work out which key it is from the map and shift if needed
-        if (!windowsShift) inChar=keyMapUS[keyPos+shift];
-        // use "windows" keymap where shift is passed through
+        // else "windows" keymap where shift is passed through
+        if (!windowsShift)
+          inChar=keyMapUS[keyPos+shift];
         else inChar=keyMapUS[keyPos+144];
       }
       if (USKeyboard==0) {
         // work out which key it is from the map and shift if needed
-        if (!windowsShift) inChar=keyMapEU[keyPos+shift];
-        // use "windows" keymap where shift is passed through
-        else inChar=keyMapEU[keyPos+144];
+        // else use "windows" keymap where shift is passed through
+        if (!windowsShift)
+          inChar=keyMapEU[keyPos+shift];
+        else
+          inChar=keyMapEU[keyPos+144];
       }
       // check the active input pin
       if (i==0) digitalread=1-digitalRead(10);
@@ -307,8 +316,7 @@ void loop() {
               lastDebounceTime[keyPos] = millis();
               // pass the keypress to windows
               Keyboard.press(keyDown[keyPos]);
-            }
-            else {
+            } else {
               // reset keybounce delay and mark as shift press
               lastDebounceTime[keyPos]=millis(); shift=72;
             }
@@ -321,8 +329,7 @@ void loop() {
               lastDebounceTime[keyPos] = millis();
               // pass key release to windows
               Keyboard.release(keyDown[keyPos]);
-            }
-            else {
+            } else {
               // reset keybounce delay and mark as un-shifted
               lastDebounceTime[keyPos]=millis(); shift=0;
             }
@@ -345,8 +352,7 @@ void loop() {
               lastDebounceTime[keyPos] = millis();
               // pass the keypress to windows
               Keyboard.press(keyDown[keyPos]);
-            }
-            else {
+            } else {
               // reset keybounce delay and mark as shift press
               lastDebounceTime[keyPos]=millis(); shift=72;
             }
@@ -359,8 +365,7 @@ void loop() {
               lastDebounceTime[keyPos] = millis();
               // pass key release to windows
               Keyboard.release(keyDown[keyPos]);
-            }
-            else {
+            } else {
               // reset keybounce delay and mark as un-shifted
               lastDebounceTime[keyPos]=millis(); shift=0;
             }
