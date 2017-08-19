@@ -275,7 +275,8 @@ void loop() {
         // else "windows" keymap where shift is passed through
         if (!windowsShift)
           inChar = keyMapUS[keyPos + shift];
-        else inChar = keyMapUS[keyPos + 144];
+        else
+          inChar = keyMapUS[keyPos + 144];
       }
       if (USKeyboard == 0) {
         // work out which key it is from the map and shift if needed
@@ -335,7 +336,7 @@ void loop() {
             } else {
               // reset keybounce delay and mark as un-shifted
               lastDebounceTime[keyPos] = millis();
-              shift=0;
+              shift = 0;
             }
             // set keydown array position as up
             keyDown[keyPos] = 0;
